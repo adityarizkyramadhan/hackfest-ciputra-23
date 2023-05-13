@@ -28,12 +28,14 @@ func ValidateJWToken() gin.HandlerFunc {
 		bearerToken := c.Request.Header.Get("Authorization")
 		if bearerToken == "" {
 			response.Fail(c, http.StatusUnauthorized, "bearer token is not provided")
+			c.Abort()
 			return
 		}
 		bearerToken = strings.ReplaceAll(bearerToken, "Bearer ", "")
 		token, err := jwt.Parse(bearerToken, ekstractToken)
 		if err != nil {
 			response.Fail(c, http.StatusUnauthorized, err.Error())
+			c.Abort()
 			return
 		}
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
@@ -42,6 +44,7 @@ func ValidateJWToken() gin.HandlerFunc {
 			c.Next()
 		} else {
 			response.Fail(c, http.StatusUnauthorized, "token invalid")
+			c.Abort()
 			return
 		}
 	}
