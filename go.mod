@@ -3,6 +3,7 @@ module github.com/adityarizkyramadhan/hackfest-ciputra-23
 go 1.20
 
 require (
+	github.com/adityarizkyramadhan/supabase-storage-uploader v0.0.3
 	github.com/gin-contrib/timeout v0.0.3
 	github.com/gin-gonic/gin v1.9.0
 	github.com/gofrs/uuid v4.4.0+incompatible
