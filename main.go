@@ -9,6 +9,10 @@ import (
 	controllerUser "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/user/controller"
 	repositoryUser "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/user/repository"
 	usecaseUser "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/user/usecase"
+
+	controllerBusiness "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/business/controller"
+	repositoryBusiness "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/business/repository"
+	usecaseBusiness "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/business/usecase"
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/config/database"
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/middleware"
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/model"
@@ -30,6 +34,8 @@ func main() {
 	err = database.Migrate(
 		&model.User{},
 		&model.UserLocation{},
+		&model.Business{},
+		&model.Testimony{},
 	)
 	if err != nil {
 		log.Fatalln(err.Error())
@@ -50,6 +56,12 @@ func main() {
 	ctrlUser := controllerUser.New(ucUser)
 	userGroup := v1.Group("user")
 	ctrlUser.Mount(userGroup)
+
+	repoBusiness := repositoryBusiness.New(db)
+	ucBusiness := usecaseBusiness.New(repoBusiness)
+	ctrlBusiness := controllerBusiness.New(*ucBusiness)
+	businessGroup := v1.Group("business")
+	ctrlBusiness.Mount(businessGroup)
 
 	router.Run(fmt.Sprintf(":%s", os.Getenv("APP_PORT")))
 }

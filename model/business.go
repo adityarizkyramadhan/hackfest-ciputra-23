@@ -21,18 +21,23 @@ type Business struct {
 	OpenTime    string         `json:"open_time"`
 	Type        string         `json:"type"`
 	Offered     string         `json:"offered"`
+	Latitude    float64        `json:"latitude" binding:"required"`
+	Longitude   float64        `json:"longitude" binding:"required"`
+	LinkPhoto   string         `json:"link_photo"`
 	Testimonies []Testimony    `gorm:"foreignKey:IDBusiness" json:"testimonies"`
 }
 
 type BusinessInput struct {
-	Name        string `json:"name" binding:"required"`
-	Region      string `json:"region" binding:"required"`
-	Description string `json:"description" binding:"required"`
-	IsAvailable bool   `json:"is_available" binding:"required"`
-	CloseTime   string `json:"close_time" binding:"required"`
-	OpenTime    string `json:"open_time" binding:"required"`
-	Type        string `json:"type" binding:"required"`
-	Offered     string `json:"offered" binding:"required"`
+	Name        string                `form:"name" binding:"required"`
+	Region      string                `form:"region" binding:"required"`
+	Description string                `form:"description" binding:"required"`
+	CloseTime   string                `form:"close_time" binding:"required"`
+	OpenTime    string                `form:"open_time" binding:"required"`
+	Type        string                `form:"type" binding:"required"`
+	Offered     string                `form:"offered" binding:"required"`
+	Latitude    float64               `form:"latitude" binding:"required"`
+	Longitude   float64               `form:"longitude" binding:"required"`
+	Photo       *multipart.FileHeader `form:"photo" binding:"required"`
 }
 
 type Testimony struct {
@@ -48,6 +53,7 @@ type Testimony struct {
 }
 
 type TestimonyInput struct {
-	Photo    *multipart.FileHeader `form:"link_photo" binding:"required"`
-	Comentar string                `form:"comentar" binding:"required"`
+	Photo      *multipart.FileHeader `form:"photo" binding:"required"`
+	IDBusiness string                `form:"id_business" binding:"required"`
+	Comentar   string                `form:"comentar" binding:"required"`
 }
