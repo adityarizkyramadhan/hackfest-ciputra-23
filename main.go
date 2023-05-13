@@ -27,7 +27,10 @@ func main() {
 	if db == nil {
 		log.Fatal("init connection db failed")
 	}
-	err = database.Migrate(&model.User{})
+	err = database.Migrate(
+		&model.User{},
+		&model.UserLocation{},
+	)
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

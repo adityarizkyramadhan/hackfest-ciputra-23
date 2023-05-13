@@ -1,11 +1,14 @@
 package usecase
 
 import (
+	"errors"
+
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/api/user/repository"
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/middleware"
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/model"
 	"github.com/gofrs/uuid"
 	"github.com/jinzhu/copier"
+	"gorm.io/gorm"
 )
 
 type User struct {
@@ -43,4 +46,29 @@ func (usecase *User) Login(arg *model.UserLogin) (string, error) {
 		return "", err
 	}
 	return token, err
+}
+
+func (usecase *User) AddLocation(arg *model.UserLocationRequest, userId string) error {
+	location := new(model.UserLocation)
+	userIdUUID, err := uuid.FromString(userId)
+	if err != nil {
+		return err
+	}
+	err = copier.Copy(location, arg)
+	if err != nil {
+		return err
+	}
+	location.ID = uuid.Must(uuid.NewV6())
+	location.UserID = userIdUUID
+	return usecase.repoUser.AddLocation(location)
+}
+
+func (usecase *User) IsUserAddLocation(userId string) (bool, error) {
+	_, err := usecase.repoUser.FindLocationUser(userId)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return false, nil
+	} else if err != nil {
+		return false, err
+	}
+	return true, nil
 }

@@ -34,3 +34,17 @@ func (rs *User) FindByNumberPhone(phoneNumber string) (*model.User, error) {
 	}
 	return &user, nil
 }
+
+func (rs *User) AddLocation(arg *model.UserLocation) error {
+	return rs.db.Transaction(func(tx *gorm.DB) error {
+		return tx.Create(arg).Error
+	})
+}
+
+func (rs *User) FindLocationUser(id string) (*model.UserLocation, error) {
+	var location model.UserLocation
+	if err := rs.db.Where("user_id = ?", id).Take(&location).Error; err != nil {
+		return nil, err
+	}
+	return &location, nil
+}
