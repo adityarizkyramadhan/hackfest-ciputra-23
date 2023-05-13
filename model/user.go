@@ -13,7 +13,7 @@ type User struct {
 	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"deleted_at"`
 	Name        string         `json:"name"`
-	PhoneNumber string         `json:"phone_number"`
+	PhoneNumber string         `json:"phone_number" gorm:"uniqueIndex"`
 	Password    string         `json:"-"`
 	Address     string         `json:"address"`
 }
