@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/model"
+	"github.com/adityarizkyramadhan/hackfest-ciputra-23/utils/customserror"
 	"gorm.io/gorm"
 )
 
@@ -27,18 +28,25 @@ func (repo *Business) CreateTestimony(arg *model.Testimony) error {
 
 func (repo *Business) GetAllBusiness(tipe, offered string) ([]*model.Business, error) {
 	var businesses []*model.Business
-	query := repo.db
-	if tipe != "" {
-		query = query.Where("type = ?", tipe)
+	if tipe != "" && offered != "" {
+		if err := repo.db.Where("offered = ?", offered).Where("type = ?", tipe).Find(&businesses).Error; err != nil {
+			return nil, err
+		}
+		return businesses, nil
 	}
 	if offered != "" {
-		query = query.Where("offered = ?", offered)
+		if err := repo.db.Where("offered = ?", offered).Find(&businesses).Error; err != nil {
+			return nil, err
+		}
+		return businesses, nil
 	}
-
-	if err := query.Find(&businesses).Error; err != nil {
-		return nil, err
+	if tipe != "" {
+		if err := repo.db.Where("type = ?", tipe).Find(&businesses).Error; err != nil {
+			return nil, err
+		}
+		return businesses, nil
 	}
-	return businesses, nil
+	return nil, customserror.ErrNoQuery
 }
 
 func (repo *Business) GetByIdBusiness(id string) (*model.Business, error) {
