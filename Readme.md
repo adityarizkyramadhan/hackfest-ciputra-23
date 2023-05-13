@@ -16,6 +16,12 @@
 
 ### How to run in local :
 
+Copy .env.example to .env and fill it
+```
+cp .env.example .env
+sudo nano .env
+```
+
 Command to build all services in the docker-compose.yml file :
 ```
 docker-compose build
