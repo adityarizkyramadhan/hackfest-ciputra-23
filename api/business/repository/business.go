@@ -40,7 +40,7 @@ func (repo *Business) GetAllBusiness(tipe, offered string) ([]*model.Business, e
 		query = query.Where("offered = ?", offered)
 	}
 
-	if err := query.Take(&businesses).Error; err != nil {
+	if err := query.Find(&businesses).Error; err != nil {
 		return nil, err
 	}
 
