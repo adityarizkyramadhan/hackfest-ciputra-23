@@ -1,0 +1,66 @@
+version: "3.9"
+
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  db-data:
+
+
+services:
+  db:
+    env_file:
+      - .env
+    cpus: 0.7
+    mem_limit: 600m
+    image: mariadb:latest
+    container_name: db_hackfest
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
+    ports:
+      - "3350:3306"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-ppw"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    env_file:
+      - .env
+    build: .
+    ports:
+      - "${DOCKER_PORT}:${APP_PORT}"
+    environment:
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    cpus: 0.3
+    mem_limit: 120m
+    container_name: backend_hackfest
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
