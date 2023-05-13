@@ -10,6 +10,8 @@ import (
 	repositoryUser "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/user/repository"
 	usecaseUser "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/user/usecase"
 
+	controllerPayment "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/payment/controller"
+
 	controllerBusiness "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/business/controller"
 	repositoryBusiness "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/business/repository"
 	usecaseBusiness "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/business/usecase"
@@ -62,6 +64,10 @@ func main() {
 	ctrlBusiness := controllerBusiness.New(*ucBusiness)
 	businessGroup := v1.Group("business")
 	ctrlBusiness.Mount(businessGroup)
+
+	ctrlPayment := controllerPayment.New(ucUser)
+	paymentGroup := v1.Group("payment")
+	ctrlPayment.Mount(paymentGroup)
 
 	router.Run(fmt.Sprintf(":%s", os.Getenv("APP_PORT")))
 }
