@@ -2,7 +2,6 @@ package repository
 
 import (
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/model"
-	"github.com/adityarizkyramadhan/hackfest-ciputra-23/utils/customserror"
 	"gorm.io/gorm"
 )
 
@@ -46,7 +45,7 @@ func (repo *Business) GetAllBusiness(tipe, offered string) ([]*model.Business, e
 		}
 		return businesses, nil
 	}
-	return nil, customserror.ErrNoQuery
+	return nil, nil
 }
 
 func (repo *Business) GetByIdBusiness(id string) (*model.Business, error) {
