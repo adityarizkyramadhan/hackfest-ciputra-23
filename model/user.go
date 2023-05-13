@@ -17,3 +17,15 @@ type User struct {
 	Password    string         `json:"-"`
 	Address     string         `json:"address"`
 }
+
+type UserRegister struct {
+	Name        string `json:"name" binding:"required"`
+	PhoneNumber string `json:"phone_number" binding:"required"`
+	Password    string `json:"password" binding:"required"`
+	Address     string `json:"address" binding:"required"`
+}
+
+type UserLogin struct {
+	PhoneNumber string `json:"phone_number" binding:"required"`
+	Password    string `json:"password" binding:"required"`
+}
