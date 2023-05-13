@@ -8,6 +8,7 @@
    - gofrs/uuid
    - gin-contrib/timeout
    - golang-jwt/jwt/v4
+   - adityarizkyramadhan/supabase-storage-uploader
 4. Docker
 5. let's encrypt
 6. VM Ubuntu 22.04 LTS
