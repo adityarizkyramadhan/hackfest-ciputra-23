@@ -45,7 +45,7 @@ func (repo *Business) GetAllBusiness(tipe, offered string) ([]*model.Business, e
 		}
 		return businesses, nil
 	}
-	return nil, nil
+	return []*model.Business{}, nil
 }
 
 func (repo *Business) GetByIdBusiness(id string) (*model.Business, error) {
