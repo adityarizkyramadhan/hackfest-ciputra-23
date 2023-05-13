@@ -1,11 +1,14 @@
 package usecase
 
 import (
+	"errors"
+
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/api/business/repository"
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/model"
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/utils/uploader"
 	"github.com/gofrs/uuid"
 	"github.com/jinzhu/copier"
+	"gorm.io/gorm"
 )
 
 type Business struct {
@@ -55,7 +58,14 @@ func (usecase *Business) CreateTestimony(arg *model.TestimonyInput, userId strin
 }
 
 func (usecase *Business) GetBussiness(tipe, offered string) ([]*model.Business, error) {
-	return usecase.repoBusiness.GetAllBusiness(tipe, offered)
+	businesses, err := usecase.repoBusiness.GetAllBusiness(tipe, offered)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return []*model.Business{}, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return businesses, nil
 }
 
 func (usecase *Business) GetByIdBusiness(id string) (*model.Business, error) {
