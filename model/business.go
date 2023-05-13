@@ -19,6 +19,8 @@ type Business struct {
 	IsAvailable bool           `json:"is_available" gorm:"default:true"`
 	CloseTime   string         `json:"close_time"`
 	OpenTime    string         `json:"open_time"`
+	Type        string         `json:"type"`
+	Offered     string         `json:"offered"`
 	Testimonies []Testimony    `gorm:"foreignKey:IDBusiness" json:"testimonies"`
 }
 
@@ -29,6 +31,8 @@ type BusinessInput struct {
 	IsAvailable bool   `json:"is_available" binding:"required"`
 	CloseTime   string `json:"close_time" binding:"required"`
 	OpenTime    string `json:"open_time" binding:"required"`
+	Type        string `json:"type" binding:"required"`
+	Offered     string `json:"offered" binding:"required"`
 }
 
 type Testimony struct {
