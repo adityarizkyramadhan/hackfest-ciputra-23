@@ -54,10 +54,10 @@ func (usecase *Business) CreateTestimony(arg *model.TestimonyInput, userId strin
 	return usecase.repoBusiness.CreateTestimony(testimony)
 }
 
-func (usecase *Business) GetAllBusiness() ([]*model.Business, error) {
-	return usecase.repoBusiness.GetAllBusiness()
+func (usecase *Business) GetBussiness(tipe, offered string) ([]*model.Business, error) {
+	return usecase.repoBusiness.GetAllBusiness(tipe, offered)
 }
 
 func (usecase *Business) GetByIdBusiness(id string) (*model.Business, error) {
-	return usecase.repoBusiness.GetByIdBusiness(id)
+	return usecase.repoBusiness.GetDetailCompleteByIdBusiness(id)
 }

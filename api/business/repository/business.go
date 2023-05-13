@@ -25,9 +25,17 @@ func (repo *Business) CreateTestimony(arg *model.Testimony) error {
 	})
 }
 
-func (repo *Business) GetAllBusiness() ([]*model.Business, error) {
+func (repo *Business) GetAllBusiness(tipe, offered string) ([]*model.Business, error) {
 	var businesses []*model.Business
-	if err := repo.db.Find(&businesses).Error; err != nil {
+	query := repo.db
+	if tipe != "" {
+		query = query.Where("type = ?", tipe)
+	}
+	if offered != "" {
+		query = query.Where("offered = ?", offered)
+	}
+
+	if err := query.Find(&businesses).Error; err != nil {
 		return nil, err
 	}
 	return businesses, nil

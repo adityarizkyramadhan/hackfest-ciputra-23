@@ -46,7 +46,29 @@ func (ctrl *Business) CreateTestimony(ctx *gin.Context) {
 	response.Success(ctx, http.StatusCreated, nil)
 }
 
+func (ctrl *Business) GetBusiness(ctx *gin.Context) {
+	tipe := ctx.Query("type")
+	offered := ctx.Query("offered")
+	data, err := ctrl.usecaseBusines.GetBussiness(tipe, offered)
+	if err != nil {
+		response.Fail(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	response.Success(ctx, http.StatusOK, data)
+}
+
+func (ctrl *Business) GetBusinessById(ctx *gin.Context) {
+	data, err := ctrl.usecaseBusines.GetByIdBusiness(ctx.Param("id"))
+	if err != nil {
+		response.Fail(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	response.Success(ctx, http.StatusOK, data)
+}
+
 func (ctrl *Business) Mount(business *gin.RouterGroup) {
+	business.GET(":id", middleware.ValidateJWToken(), ctrl.GetBusinessById)
 	business.POST("seller", ctrl.CreateBusiness)
 	business.POST("comment", middleware.ValidateJWToken(), ctrl.CreateTestimony)
+	business.GET("query", middleware.ValidateJWToken(), ctrl.GetBusiness)
 }
