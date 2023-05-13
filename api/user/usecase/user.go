@@ -76,3 +76,7 @@ func (usecase *User) IsUserAddLocation(userId string) (bool, error) {
 func (usecase *User) GetUserLocation(userId string) (*model.UserLocation, error) {
 	return usecase.repoUser.FindLocationUser(userId)
 }
+
+func (usecase *User) GetUserById(id string) (*model.User, error) {
+	return usecase.repoUser.FindById(id)
+}

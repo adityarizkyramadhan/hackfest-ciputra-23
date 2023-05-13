@@ -93,10 +93,25 @@ func (ctrl *User) UserLocation(ctx *gin.Context) {
 	response.Success(ctx, http.StatusOK, location)
 }
 
+func (ctrl *User) Profile(ctx *gin.Context) {
+	id := ctx.MustGet("id").(string)
+	if id == "" {
+		response.Fail(ctx, http.StatusForbidden, customserror.ErrIdNotFound.Error())
+		return
+	}
+	location, err := ctrl.usecaseUser.GetUserById(id)
+	if err != nil {
+		response.Fail(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+	response.Success(ctx, http.StatusOK, location)
+}
+
 func (ctrl *User) Mount(user *gin.RouterGroup) {
 	user.POST("login", ctrl.Login)
 	user.POST("register", ctrl.Register)
 	user.POST("location", middleware.ValidateJWToken(), ctrl.AddLocation)
 	user.GET("location", middleware.ValidateJWToken(), ctrl.UserLocation)
 	user.GET("location/status", middleware.ValidateJWToken(), ctrl.IsUserAddLocation)
+	user.GET("profile", middleware.ValidateJWToken(), ctrl.Profile)
 }
