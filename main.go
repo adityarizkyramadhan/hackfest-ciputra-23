@@ -10,6 +10,7 @@ import (
 	repositoryUser "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/user/repository"
 	usecaseUser "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/user/usecase"
 
+	controllerChat "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/chat/controller"
 	controllerPayment "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/payment/controller"
 
 	controllerBusiness "github.com/adityarizkyramadhan/hackfest-ciputra-23/api/business/controller"
@@ -18,6 +19,7 @@ import (
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/config/database"
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/middleware"
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/model"
+	"github.com/adityarizkyramadhan/hackfest-ciputra-23/utils/chat"
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/utils/response"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -68,6 +70,11 @@ func main() {
 	ctrlPayment := controllerPayment.New(ucUser)
 	paymentGroup := v1.Group("payment")
 	ctrlPayment.Mount(paymentGroup)
+
+	chatBot := chat.New()
+	ctrlChat := controllerChat.New(chatBot)
+	chatGroup := v1.Group("chat")
+	ctrlChat.Mount(chatGroup)
 
 	router.Run(fmt.Sprintf(":%s", os.Getenv("APP_PORT")))
 }
