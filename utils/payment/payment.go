@@ -1,7 +1,6 @@
 package payment
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/adityarizkyramadhan/hackfest-ciputra-23/model"
@@ -29,8 +28,6 @@ func CreatePayment(arg *PaymentRequest, user *model.User) (*xendit.Invoice, erro
 			GivenNames: user.Name,
 		},
 		InvoiceDuration:              100,
-		SuccessRedirectURL:           fmt.Sprintf("%s/api/v1/payment/success", os.Getenv("BASE_URL")),
-		FailureRedirectURL:           fmt.Sprintf("%s/api/v1/payment/failure", os.Getenv("BASE_URL")),
 		PaymentMethods:               []string{"BNI", "BSI", "BRI", "BSS", "MANDIRI", "PERMATA", "BJB", "OVO", "DANA", "QRIS"},
 		Currency:                     "IDR",
 		MidLabel:                     "INV",
