@@ -1,5 +1,18 @@
 # Hackfest Ciputra 2023
 
+## The Champion of Hackfest Ciputra 2023
+
+Team Photo :
+![Alt Text](images/team.jpg)
+
+<strong>Team Name</strong>
+   - Putu Ayu Ananda (Product Manager)
+   - Ferdiansah Dwika Permana (Product Designer)
+   - Fahmi Noordin Rumagutawan (Front End)
+   - Ida Bagus (Front End)
+   - Aditya Rizky Ramadhan (Backend & devops)
+
+
 ### Tech Stack :
 1. Framework RestAPI : Gin
 2. ORM : Gorm
