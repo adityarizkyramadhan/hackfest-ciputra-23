@@ -12,6 +12,10 @@ Team Photo :
    - Ida Bagus (Front End)
    - Aditya Rizky Ramadhan (Backend & devops)
 
+<strong>FrontEnd Repository</strong>
+```
+https://github.com/fahmirumagutawan/Jetpack-CiputraHackfest-2023
+```
 
 ### Tech Stack :
 1. Framework RestAPI : Gin
