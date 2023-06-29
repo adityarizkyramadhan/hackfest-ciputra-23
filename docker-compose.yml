@@ -27,21 +27,6 @@ services:
       - app-network
     ports:
       - "3350:3306"
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "mysqladmin",
-          "ping",
-          "-h",
-          "localhost",
-          "-u",
-          "root",
-          "-ppw"
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   backend:
     env_file:
@@ -59,8 +44,5 @@ services:
     mem_limit: 120m
     container_name: backend_hackfest
     restart: on-failure
-    depends_on:
-      db:
-        condition: service_healthy
     networks:
       - app-network
